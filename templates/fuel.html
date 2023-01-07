@@ -1,0 +1,138 @@
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" type="text/css">
+<style type="text/css">
+body {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+.wrapper {
+    -webkit-print-color-adjust: exact;
+    background-color: #f5f7f7 !important;
+    font-family: "Press Start 2P", cursive;
+    font-size: 9.5px;
+    font-stretch: extra-condensed;
+    letter-spacing: -0.7px;
+    line-height: 1.2;
+    margin-left: 8px;
+    margin-top: 0px;
+    padding: 5px;
+    position: relative;
+    width: 260px;
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    width: 110px;
+    height: 110px;
+}
+
+.top {
+    text-align: center;
+    line-height: 1.35;
+    margin-bottom: 5px;
+}
+
+.table-element {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0px;
+    margin-bottom: -5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.table1 {
+    margin-bottom: 30px;
+}
+
+.table2 {
+    margin-bottom: 20px;
+}
+
+.bottom {
+    margin-top: 60px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.side-logo1 {
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    right: -70px;
+    width: 60%;
+    top: 100px;
+    position: absolute;
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    opacity: .35;
+    display: flex;
+}
+
+.side-logo2 {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    right: -70px;
+    width: 60%;
+    position: absolute;
+    filter: grayscale(100%);
+    opacity: .35;
+    top: 400px;
+    display: flex;
+}
+.m-4 {
+    margin: 4px;
+}
+</style>
+<div class="wrapper">
+    <img src="https://bill-generator-assets.s3.ap-south-1.amazonaws.com/side-logo.png" alt="Bank Logo" class="side-logo1">
+    <img src="https://bill-generator-assets.s3.ap-south-1.amazonaws.com/side-logo.png" alt="Bank Logo" class="side-logo2">
+    <img src="https://bill-generator-assets.s3.ap-south-1.amazonaws.com/HP-grayscale.png" alt="Logo" class="logo">
+    <p class="top">WELCOME!!!</p>
+    <p class="top">{pump_name} {area_name}</p>
+    <div class="table1">
+        <div class="table-element">
+            <p class="m-4">Receipt No.: {receipt_number}</p>
+        </div>
+    </div>
+    <div class="table2">
+        <div class="table-element">
+            <p class="m-4">PRODUCT: Petrol</p>
+        </div>
+        <div class="table-element">
+            <p class="m-4">RATE/LTR: Rs. {petrol_rate}</p>
+        </div>
+        <div class="table-element">
+            <p class="m-4">AMOUNT: Rs. {amount}</p>
+        </div>
+        <div class="table-element">
+            <p class="m-4">VOLUME(LTR.): {volume} lt</p>
+        </div>
+    </div>
+    <div class="table1">
+        <div class="table-element">
+            <p class="m-4">VEH TYPE: Petrol</p>
+        </div>
+        <div class="table-element">
+            <p class="m-4">VEH NO: {vehicle_number}</p>
+        </div>
+        <div class="table-element">
+            <p class="m-4">CUSTOMER NAME: {customer_name}</p>
+        </div>
+    </div>
+    <div class="table-element">
+        <p class="m-4">Date: {date}</p>
+        <p>Time: {time}</p>
+    </div>
+    <div class="table-element">
+        <p class="m-4">MODE: Cash</p>
+    </div>
+    <p class="bottom">SAVE FUEL YAANI SAVE MONEY !! THANKS FOR FUELLING WITH US. YOU CAN NOW CALL US ON 1800 226344 (TOLL-FREE) FOR QUERIES/COMPLAINTS.</p>
+</div>
