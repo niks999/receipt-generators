@@ -1,10 +1,10 @@
-import os
 import random
 import math
 import pdfkit
 
 from datetime import datetime, timedelta
-from pypdf import PdfMerger
+
+from utils import cleanup_output_dir, merge_pdf_files
 
 # Variables
 start_date = datetime(2022, 4, 1)
@@ -59,17 +59,7 @@ def generate_pdf(pump, area, receipt_number, petrol_rate, amount, vehicle, custo
     return output_file
 
 
-print('========== Performing Cleanup ==========')
-
-if not os.path.exists(output_folder):
-    print(f'Creating folder: "{output_folder}"')
-    os.makedirs(output_folder)
-
-print(f'Removing all files inside "{output_folder}"')
-for f in os.listdir(output_folder):
-    os.remove(f'{output_folder}/{f}')
-
-print('========== Cleanup complete ==========')
+cleanup_output_dir(output_folder)
 
 total_days = (end_date - start_date).days
 total_bills = math.ceil(total_amount / amount_per_bill)
@@ -97,8 +87,4 @@ for date in dates:
                         timestamp=date)
     files.append(file)
 
-merger = PdfMerger()
-for file in files:
-    merger.append(file)
-merger.write(f'{output_folder}/{result_file}')
-merger.close()
+merge_pdf_files(files, f'{output_folder}/{result_file}')
