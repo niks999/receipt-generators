@@ -42,3 +42,12 @@ internet:
   account_number: "0000000000"       # ISP account number (optional)
   amount: 1000                       # Receipt amount
   customer_address: "# # City State - 000000 India"  # Customer address (optional)
+
+# Education Receipt Configuration
+education:
+  customer_name: "Your Name"         # Customer name
+  products:                          # List of courses
+    - name: "Data Structures and Algorithms"
+      price: 84500
+    - name: "Service-oriented Architecture"
+      price: 47300
