@@ -1,0 +1,97 @@
+"""Base Receipt Generator"""
+
+import os
+from abc import ABC, abstractmethod
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+from utils import cleanup_output_dir, merge_pdf_files
+
+
+class BaseGenerator(ABC):
+    """Base class for receipt generators"""
+
+    def __init__(self, config: dict):
+        """
+        Initialize generator with configuration
+
+        Args:
+            config: Dictionary containing generator configuration
+        """
+        self.config = config
+        self.output_folder = None
+        self.result_file = "result.pdf"
+        self.template_file = None
+
+    @abstractmethod
+    def prepare_dates(self):
+        """Prepare list of dates for receipt generation"""
+        pass
+
+    @abstractmethod
+    def generate_single_pdf(self, date, browser):
+        """Generate a single PDF for given date using existing browser instance"""
+        pass
+
+    def render_html(self, template_path: str, replacements: dict) -> str:
+        """
+        Read template and replace placeholders
+
+        Args:
+            template_path: Path to HTML template
+            replacements: Dictionary of {placeholder: value} to replace
+
+        Returns:
+            Rendered HTML string
+        """
+        with open(template_path, 'r') as f:
+            html = f.read()
+
+        for placeholder, value in replacements.items():
+            html = html.replace(placeholder, str(value))
+
+        return html
+
+    def create_pdf(self, html: str, output_path: str, browser):
+        """
+        Create PDF from HTML using Playwright
+
+        Args:
+            html: HTML content
+            output_path: Path to save PDF
+            browser: Playwright browser instance
+        """
+        base_url = f"file://{os.path.abspath('templates')}/"
+        page = browser.new_page()
+        page.goto(base_url)
+        page.set_content(html, wait_until="networkidle")
+        page.pdf(path=output_path, format='A4')
+        page.close()
+
+    def generate(self):
+        """Main generation logic"""
+        # Cleanup output directory
+        cleanup_output_dir(self.output_folder)
+
+        # Prepare dates
+        dates = self.prepare_dates()
+        print(f"Generating {len(dates)} receipts...")
+
+        # Generate PDFs using single browser instance
+        files = []
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+
+            for date in dates:
+                file_path = self.generate_single_pdf(date, browser)
+                files.append(file_path)
+
+            browser.close()
+
+        # Merge all PDFs
+        output_path = f"{self.output_folder}/{self.result_file}"
+        merge_pdf_files(files, output_path)
+
+        print(f"✓ Complete! Generated {len(files)} receipts")
+        print(f"  Output: {output_path}")

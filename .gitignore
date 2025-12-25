@@ -1,3 +1,26 @@
+# Output
 output/
+
+# Virtual Environment
 venv/
+
+# IDE
 .idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configuration
+config.yaml
+
+# System Files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Claude
+.claude/

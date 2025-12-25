@@ -1,0 +1,36 @@
+# Receipt Generator Configuration Template
+# Copy this file to config.yaml and update with your values
+# config.yaml is gitignored and won't be committed
+
+# Fuel Receipt Configuration
+fuel:
+  start_date: "2025-04-01"           # Start date for receipts
+  end_date: "2025-12-24"             # End date for receipts
+  total_amount: 360000               # Total amount to generate receipts for
+  amount_per_bill: 5000              # Amount per receipt
+  pump_name: "Example Petroleum"     # Fuel pump name
+  area_name: "Your Area"             # Area/location name
+  vehicle_number: "XX00YY0000"       # Vehicle registration number
+  customer_name: "Your Name"         # Customer name
+  fuel_rates:                        # Monthly fuel rates per liter
+    1: 103.44   # January
+    2: 103.44   # February
+    3: 103.44   # March
+    4: 103.44   # April
+    5: 103.44   # May
+    6: 103.44   # June
+    7: 103.44   # July
+    8: 103.44   # August
+    9: 103.44   # September
+    10: 103.44  # October
+    11: 103.44  # November
+    12: 103.44  # December
+
+# Driver Salary Configuration
+driver:
+  start_date: "2025-04-01"           # Start date for receipts (monthly)
+  end_date: "2026-03-01"             # End date for receipts
+  salary: 30000                      # Monthly salary amount
+  driver_name: "Driver Name"         # Driver's full name
+  vehicle_number: "XX00YY0000"       # Vehicle registration number
+  employee_name: "Your Name"         # Employee/employer name
