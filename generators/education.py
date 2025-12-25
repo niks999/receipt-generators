@@ -1,7 +1,10 @@
 """Education Receipt Generator"""
 
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
+
+from utils import (add_business_hours, get_financial_year_start,
+                   random_date_in_fy)
 
 from .base import BaseGenerator
 
@@ -23,16 +26,7 @@ class EducationGenerator(BaseGenerator):
 
     def prepare_dates(self):
         """Prepare random dates in current financial year (one per product)"""
-        # Financial year starts April 1st
-        current_year = datetime.now().year
-        current_month = datetime.now().month
-
-        # If we're before April, FY started last year
-        if current_month < 4:
-            fy_start = datetime(current_year - 1, 4, 1)
-        else:
-            fy_start = datetime(current_year, 4, 1)
-
+        fy_start = get_financial_year_start()
         fy_end = datetime.now()
 
         total_days = (fy_end - fy_start).days
@@ -42,21 +36,13 @@ class EducationGenerator(BaseGenerator):
         if len(self.products) < 1:
             raise ValueError("At least 1 product required in config")
 
-        # Generate one random date per product
+        # Generate random dates with business hours
         num_receipts = len(self.products)
-        dates = []
-        for _ in range(num_receipts):
-            random_days = random.randrange(total_days + 1)
-            random_date = fy_start + timedelta(days=random_days)
-            # Add random time during business hours
-            random_date = random_date.replace(
-                hour=random.randrange(9, 18),
-                minute=random.randrange(60),
-                second=random.randrange(60)
-            )
-            dates.append(random_date)
+        dates = random_date_in_fy(count=num_receipts)
 
-        dates.sort()
+        # Add business hours to each date
+        dates = [add_business_hours(date) for date in dates]
+
         return dates
 
     def generate_single_pdf(self, date, browser):

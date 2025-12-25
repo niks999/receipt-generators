@@ -51,3 +51,23 @@ education:
       price: 84500
     - name: "Service-oriented Architecture"
       price: 47300
+
+# Book Receipt Configuration (Amazon)
+book:
+  customer_name: "Your Name"                                # Customer name
+  customer_address_line1: "Your Address Line 1"             # Address line 1
+  customer_city_state_pin: "CITY, STATE, 000000"            # City, State, PIN
+  customer_state_code: "27"                                 # State/UT code
+  customer_state: "STATE"                                   # State name
+  item_name: "The Unicode Standard, Version 5.0 | 0321480910" # Book title with ISBN
+  item_price: 61130                                         # Book price (0% tax)
+
+# Gadget Receipt Configuration (Amazon)
+gadget:
+  customer_name: "Your Name"                                # Customer name
+  customer_address_line1: "Your Address Line 1"             # Address line 1
+  customer_city_state_pin: "CITY, STATE, 000000"            # City, State, PIN
+  customer_state_code: "27"                                 # State/UT code
+  customer_state: "STATE"                                   # State name
+  item_name: "Apple iPhone 17 Pro (Graphite, 256GB Storage) | B072LPF91D ( B072LPF91D )\nHSN:8517" # Item with HSN
+  item_price: 129900                                        # Total price (including 12% tax)

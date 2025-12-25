@@ -3,6 +3,8 @@
 import random
 from datetime import datetime, timedelta
 
+from utils import number_to_words
+
 from .base import BaseGenerator
 
 
@@ -39,44 +41,6 @@ class InternetGenerator(BaseGenerator):
         print(f"Generating receipt for {random_date}")
         return [random_date]
 
-    def number_to_words(self, num):
-        """Convert number to words (Indian numbering system)"""
-        ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
-        tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
-        teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
-
-        def convert_hundreds(n):
-            if n == 0:
-                return ""
-            elif n < 10:
-                return ones[n]
-            elif n < 20:
-                return teens[n - 10]
-            elif n < 100:
-                return tens[n // 10] + (" " + ones[n % 10] if n % 10 != 0 else "")
-            else:
-                return ones[n // 100] + " Hundred" + (" " + convert_hundreds(n % 100) if n % 100 != 0 else "")
-
-        if num == 0:
-            return "Zero"
-
-        crore = num // 10000000
-        lakh = (num % 10000000) // 100000
-        thousand = (num % 100000) // 1000
-        hundred = num % 1000
-
-        result = []
-        if crore > 0:
-            result.append(convert_hundreds(crore) + " Crore")
-        if lakh > 0:
-            result.append(convert_hundreds(lakh) + " Lakh")
-        if thousand > 0:
-            result.append(convert_hundreds(thousand) + " Thousand")
-        if hundred > 0:
-            result.append(convert_hundreds(hundred))
-
-        return " ".join(result)
-
     def generate_single_pdf(self, date, browser):
         """Generate a single internet receipt PDF"""
         print(f"Generating PDF for {date}")
@@ -87,7 +51,7 @@ class InternetGenerator(BaseGenerator):
 
         # Get amount and convert to words
         amount = self.config.get('amount', 1000)
-        amount_words = self.number_to_words(amount)
+        amount_words = number_to_words(amount)
 
         replacements = {
             "{receipt_number}": receipt_number,
