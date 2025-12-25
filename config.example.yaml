@@ -34,3 +34,11 @@ driver:
   driver_name: "Driver Name"         # Driver's full name
   vehicle_number: "XX00YY0000"       # Vehicle registration number
   employee_name: "Your Name"         # Employee/employer name
+
+# Internet Receipt Configuration
+internet:
+  start_date: "2025-04-01"           # Start date for random receipt generation
+  customer_name: "Your Name"         # Customer name
+  account_number: "0000000000"       # ISP account number (optional)
+  amount: 1000                       # Receipt amount
+  customer_address: "# # City State - 000000 India"  # Customer address (optional)

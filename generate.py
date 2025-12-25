@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Receipt Generator - Generate fuel and driver salary receipts
+Receipt Generator - Generate fuel, driver salary, and internet receipts
 
 Usage:
     python generate.py fuel      # Generate fuel receipts
     python generate.py driver    # Generate driver salary receipts
+    python generate.py internet  # Generate internet receipt
 """
 
 import sys
@@ -12,7 +13,7 @@ from pathlib import Path
 
 import yaml
 
-from generators import DriverGenerator, FuelGenerator
+from generators import DriverGenerator, FuelGenerator, InternetGenerator
 
 
 def load_config(config_file='config.yaml'):
@@ -74,9 +75,16 @@ def main():
             generator = DriverGenerator(config['driver'])
             generator.generate()
 
+        elif receipt_type == 'internet':
+            print("=" * 60)
+            print("INTERNET RECEIPT GENERATOR")
+            print("=" * 60)
+            generator = InternetGenerator(config['internet'])
+            generator.generate()
+
         else:
             print(f"Error: Unknown receipt type '{receipt_type}'")
-            print("\nValid options: fuel, driver")
+            print("\nValid options: fuel, driver, internet")
             sys.exit(1)
 
     except KeyError as e:

@@ -23,6 +23,7 @@ class BaseGenerator(ABC):
         self.output_folder = None
         self.result_file = "result.pdf"
         self.template_file = None
+        self.merge_pdfs = True  # Whether to merge multiple PDFs
 
     @abstractmethod
     def prepare_dates(self):
@@ -66,7 +67,7 @@ class BaseGenerator(ABC):
         page = browser.new_page()
         page.goto(base_url)
         page.set_content(html, wait_until="networkidle")
-        page.pdf(path=output_path, format='A4')
+        page.pdf(path=output_path, format='A4', print_background=True)
         page.close()
 
     def generate(self):
@@ -89,9 +90,13 @@ class BaseGenerator(ABC):
 
             browser.close()
 
-        # Merge all PDFs
-        output_path = f"{self.output_folder}/{self.result_file}"
-        merge_pdf_files(files, output_path)
-
-        print(f"✓ Complete! Generated {len(files)} receipts")
-        print(f"  Output: {output_path}")
+        # Merge all PDFs if needed
+        if self.merge_pdfs and len(files) > 1:
+            output_path = f"{self.output_folder}/{self.result_file}"
+            merge_pdf_files(files, output_path)
+            print(f"✓ Complete! Generated {len(files)} receipts")
+            print(f"  Output: {output_path}")
+        else:
+            output_path = files[0] if files else None
+            print(f"✓ Complete! Generated receipt")
+            print(f"  Output: {output_path}")
