@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Receipt Generator - Generate fuel, driver salary, internet, and education receipts
+Receipt Generator - Generate various types of receipts
 
 Usage:
-    python generate.py fuel       # Generate fuel receipts
-    python generate.py driver     # Generate driver salary receipts
-    python generate.py internet   # Generate internet receipt
-    python generate.py education  # Generate education receipts (2-page PDF)
+    python generate.py <type>
+
+Available types:
+    fuel       - Generate fuel receipts
+    driver     - Generate driver salary receipts
+    internet   - Generate internet receipt
+    education  - Generate education receipts (dynamic multi-page PDF)
 """
 
 import sys
@@ -14,7 +17,7 @@ from pathlib import Path
 
 import yaml
 
-from generators import DriverGenerator, EducationGenerator, FuelGenerator, InternetGenerator
+from generators import GENERATOR_REGISTRY
 
 
 def load_config(config_file='config.yaml'):
@@ -60,40 +63,19 @@ def main():
         print(f"Error loading config: {e}")
         sys.exit(1)
 
-    # Generate receipts based on type
+    # Get generator class from registry
+    generator_class = GENERATOR_REGISTRY.get(receipt_type)
+
+    if not generator_class:
+        print(f"Error: Unknown receipt type '{receipt_type}'")
+        print(f"\nValid options: {', '.join(sorted(GENERATOR_REGISTRY.keys()))}")
+        sys.exit(1)
+
+    # Generate receipts
     try:
-        if receipt_type == 'fuel':
-            print("=" * 60)
-            print("FUEL RECEIPT GENERATOR")
-            print("=" * 60)
-            generator = FuelGenerator(config['fuel'])
-            generator.generate()
-
-        elif receipt_type == 'driver':
-            print("=" * 60)
-            print("DRIVER SALARY RECEIPT GENERATOR")
-            print("=" * 60)
-            generator = DriverGenerator(config['driver'])
-            generator.generate()
-
-        elif receipt_type == 'internet':
-            print("=" * 60)
-            print("INTERNET RECEIPT GENERATOR")
-            print("=" * 60)
-            generator = InternetGenerator(config['internet'])
-            generator.generate()
-
-        elif receipt_type == 'education':
-            print("=" * 60)
-            print("EDUCATION RECEIPT GENERATOR")
-            print("=" * 60)
-            generator = EducationGenerator(config['education'])
-            generator.generate()
-
-        else:
-            print(f"Error: Unknown receipt type '{receipt_type}'")
-            print("\nValid options: fuel, driver, internet, education")
-            sys.exit(1)
+        generator_class.print_header()
+        generator = generator_class(config[receipt_type])
+        generator.generate()
 
     except KeyError as e:
         print(f"Error: Missing configuration key: {e}")

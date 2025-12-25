@@ -10,6 +10,10 @@ from .base import BaseGenerator
 class DriverGenerator(BaseGenerator):
     """Generator for driver salary receipts"""
 
+    name = "driver"
+    display_name = "DRIVER SALARY RECEIPT GENERATOR"
+    description = "Generate driver salary receipts"
+
     def __init__(self, config: dict):
         super().__init__(config)
         self.output_folder = "output/driver"

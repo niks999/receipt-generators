@@ -12,6 +12,11 @@ from utils import cleanup_output_dir, merge_pdf_files
 class BaseGenerator(ABC):
     """Base class for receipt generators"""
 
+    # Class-level metadata (to be overridden by subclasses)
+    name = None  # CLI command name (e.g., 'fuel')
+    display_name = None  # Display name for headers (e.g., 'FUEL RECEIPT GENERATOR')
+    description = None  # Short description for help text
+
     def __init__(self, config: dict):
         """
         Initialize generator with configuration
@@ -24,6 +29,14 @@ class BaseGenerator(ABC):
         self.result_file = "result.pdf"
         self.template_file = None
         self.merge_pdfs = True  # Whether to merge multiple PDFs
+
+    @classmethod
+    def print_header(cls):
+        """Print formatted header for the generator"""
+        if cls.display_name:
+            print("=" * 60)
+            print(cls.display_name)
+            print("=" * 60)
 
     @abstractmethod
     def prepare_dates(self):

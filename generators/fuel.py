@@ -10,6 +10,10 @@ from .base import BaseGenerator
 class FuelGenerator(BaseGenerator):
     """Generator for fuel receipts"""
 
+    name = "fuel"
+    display_name = "FUEL RECEIPT GENERATOR"
+    description = "Generate fuel receipts"
+
     def __init__(self, config: dict):
         super().__init__(config)
         self.output_folder = "output/fuel"

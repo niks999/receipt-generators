@@ -9,6 +9,10 @@ from .base import BaseGenerator
 class InternetGenerator(BaseGenerator):
     """Generator for internet/ISP receipts"""
 
+    name = "internet"
+    display_name = "INTERNET RECEIPT GENERATOR"
+    description = "Generate internet receipt"
+
     def __init__(self, config: dict):
         super().__init__(config)
         self.output_folder = "output/internet"

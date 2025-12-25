@@ -9,6 +9,10 @@ from .base import BaseGenerator
 class EducationGenerator(BaseGenerator):
     """Generator for education/course receipts (Coursera)"""
 
+    name = "education"
+    display_name = "EDUCATION RECEIPT GENERATOR"
+    description = "Generate education receipts (dynamic multi-page PDF)"
+
     def __init__(self, config: dict):
         super().__init__(config)
         self.output_folder = "output/education"
